@@ -31,3 +31,9 @@ target_include_directories(ccptepp PUBLIC src/)
 # - Build test_invariant_mass
 add_executable(test_invariant_mass test/test_invariant_mass.cpp)
 target_link_libraries(test_invariant_mass ccptepp)
+
+# - Setup CTest
+enable_testing()
+
+# - Declare test
+add_test(NAME TestInvariantMass COMMAND test_invariant_mass)
