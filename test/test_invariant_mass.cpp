@@ -5,8 +5,8 @@
 // Case 1. Physical domain
 TEST(InvariantMass, PhysicalDomain)
 {
-  ASSERT_EQ(invariant_mass(10., 0.), 10.1) << "at rest, particle does not have correct mass" << std::endl;
-  ASSERT_EQ(invariant_mass(100., 100.), .1) << "massless particle is not massless" << std::endl;
+  EXPECT_EQ(invariant_mass(10., 0.), 10.1) << "at rest, particle does not have correct mass" << std::endl;
+  EXPECT_EQ(invariant_mass(100., 100.), .1) << "massless particle is not massless" << std::endl;
 }
 
 // Case 2. Error conditions
