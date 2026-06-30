@@ -19,4 +19,15 @@ endif()
 cmake_minimum_required(VERSION 3.26...4.2)
 project(CCPTEPPTest)
 
+# - C++ Standard Setup
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
+# - Build a library
+add_library(ccptepp src/invariant_mass.cpp)
+target_include_directories(ccptepp PUBLIC src/)
+
+# - Build test_invariant_mass
+add_executable(test_invariant_mass test/test_invariant_mass.cpp)
+target_link_libraries(test_invariant_mass ccptepp)
