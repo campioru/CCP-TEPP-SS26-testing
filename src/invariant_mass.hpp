@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-// 1. return m^2 = E^2 - p^2
+// 1. return m = sqrt(E^2 - p^2)
 // 2. If E < 0, throws std::domain_error
 // 3. If E^2 < p^2, throws std::domain_error
 double invariant_mass(double energy, double momentum);

@@ -22,7 +22,8 @@ TEST(InvariantMass, PhysicalDomain)
 }
 
 // Case 2. Error conditions
-// TEST(InvariantMass, UnphysicalEnergies)
-// {
-//   FAIL() << "not implemented yet" << std::endl;
-// }
+TEST(InvariantMass, UnphysicalEnergies)
+{
+  EXPECT_THROW(invariant_mass(-1., 0.), std::domain_error) << "negative input energy does not throw" << std::endl;
+  EXPECT_THROW(invariant_mass(1., 1.1), std::domain_error) << "negative mass squared does not throw" << std::endl;
+}
