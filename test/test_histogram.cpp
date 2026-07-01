@@ -13,6 +13,28 @@ class HistogramFillTest : public ::testing::Test
     std::vector<float> expected = std::vector<float>(10, 0.0f);
 };
 
+class FilledHistogramTest : public ::testing::Test
+{
+  protected:
+    void SetUp() override
+    {
+      for (int bin = 0; bin < 10; ++bin)
+      {
+        for (int i = 0; i < bin + 1; ++i)
+        {
+          hist.fill(bin + 0.5f);
+        }
+      }
+      hist.fill(-1.0f);
+    }
+    void TearDown() override
+    {
+      std::cout << "teardown" << std::endl;
+    }
+
+    Histogram hist = Histogram(10, 0.0f, 1.0f);
+};
+
 // -----------------------------------------------------------------------------
 
 TEST(HistogramConstruction, ValidParametersDoNotThrow)
@@ -94,4 +116,11 @@ TEST_F(HistogramFillTest, WeightedFillProducesCorrectCounts)
   expected[1] = 0.5f;
   expected[6] = 1.5f;
   EXPECT_THAT(hist.bin_counts(), ::testing::ContainerEq(expected));
+}
+
+// -----------------------------------------------------------------------------
+
+TEST_F(FilledHistogramTest, TotalEntryCount)
+{
+  EXPECT_EQ(hist.n_entries(), 56);
 }
