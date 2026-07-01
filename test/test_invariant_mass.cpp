@@ -17,6 +17,8 @@ TEST(InvariantMass, PhysicalDomain)
   EXPECT_DOUBLE_EQ(.1 + .2, .3);
   EXPECT_DOUBLE_EQ(.1 + .2, .2 + .1);
   EXPECT_DOUBLE_EQ((.1 + .3) + .2, .1 + (.3 + .2));
+
+  EXPECT_NEAR(invariant_mass(54.9, 3.14), 54.8, .1);
 }
 
 // Case 2. Error conditions
