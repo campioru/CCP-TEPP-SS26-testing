@@ -35,8 +35,13 @@ target_include_directories(ccptepp PUBLIC src/)
 add_executable(test_invariant_mass test/test_invariant_mass.cpp)
 target_link_libraries(test_invariant_mass ccptepp GTest::gtest_main)
 
+# - Build histogram test
+add_executable(test_histogram test/test_histogram.cpp)
+target_link_libraries(test_histogram ccptepp GTest::gtest_main GTest::gmock)
+
 # - Setup CTest
 enable_testing()
 
 # - Declare test
 add_test(NAME TestInvariantMass COMMAND test_invariant_mass)
+add_test(NAME TestHistogram COMMAND test_histogram)
