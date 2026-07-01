@@ -51,3 +51,24 @@ TEST(HistogramConstruction, BinEdgesHasCorrectEndpoints)
   EXPECT_FLOAT_EQ(hist.bin_edges().front(), 0.0f) << "front not equal" << std::endl;
   EXPECT_FLOAT_EQ(hist.bin_edges().back(), 1.0f) << "back not equal" << std::endl;
 }
+
+// -----------------------------------------------------------------------------
+
+
+TEST(HistogramFill, SingleFillIncreasesCorrectBin)
+{
+  Histogram hist(10, 0.0f, 1.0f);
+  hist.fill(0.33f);
+  EXPECT_EQ(hist.bin_counts()[3], 1.0f);
+  EXPECT_EQ(hist.n_entries(), 1);
+}
+
+
+TEST(HistogramFill, SingleFillLeavesOtherBinsAtZero)
+{
+  Histogram hist(10, 0.0f, 1.0f);
+  hist.fill(0.44f);
+  std::vector<float> expected(10, 0.0f);
+  expected[4] = 1.0f;
+  EXPECT_THAT(hist.bin_counts(), ::testing::ContainerEq(expected));
+}
