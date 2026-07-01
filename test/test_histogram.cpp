@@ -81,3 +81,14 @@ TEST(HistogramFill, SingleFillOutsideRangeGoesToUnderflow)
   EXPECT_EQ(hist.n_underflow(), 1);
   EXPECT_EQ(hist.n_entries(), 1);
 }
+
+TEST(HistogramFill, WeightedFillProducesCorrectCounts)
+{
+  Histogram hist(10, 0.0f, 1.0f);
+  hist.fill(0.1f, 0.5f);
+  hist.fill(0.6f, 1.5f);
+  std::vector<float> expected(10, 0.0f);
+  expected[1] = 0.5f;
+  expected[6] = 1.5f;
+  EXPECT_THAT(hist.bin_counts(), ::testing::ContainerEq(expected));
+}
