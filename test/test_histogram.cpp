@@ -4,6 +4,17 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+// -----------------------------------------------------------------------------
+
+class HistogramFillTest : public ::testing::Test
+{
+  protected:
+    Histogram hist = Histogram(10, 0.0f, 1.0f);
+    std::vector<float> expected = std::vector<float>(10, 0.0f);
+};
+
+// -----------------------------------------------------------------------------
+
 TEST(HistogramConstruction, ValidParametersDoNotThrow)
 {
   EXPECT_NO_THROW(Histogram(10, 0.0f, 1.0f));
@@ -54,40 +65,32 @@ TEST(HistogramConstruction, BinEdgesHasCorrectEndpoints)
 
 // -----------------------------------------------------------------------------
 
-
-TEST(HistogramFill, SingleFillIncreasesCorrectBin)
+TEST_F(HistogramFillTest, SingleFillIncreasesCorrectBin)
 {
-  Histogram hist(10, 0.0f, 1.0f);
   hist.fill(0.33f);
   EXPECT_EQ(hist.bin_counts()[3], 1.0f);
   EXPECT_EQ(hist.n_entries(), 1);
 }
 
-TEST(HistogramFill, SingleFillLeavesOtherBinsAtZero)
+TEST_F(HistogramFillTest, SingleFillLeavesOtherBinsAtZero)
 {
-  Histogram hist(10, 0.0f, 1.0f);
   hist.fill(0.44f);
-  std::vector<float> expected(10, 0.0f);
   expected[4] = 1.0f;
   EXPECT_THAT(hist.bin_counts(), ::testing::ContainerEq(expected));
 }
 
-TEST(HistogramFill, SingleFillOutsideRangeGoesToUnderflow)
+TEST_F(HistogramFillTest, SingleFillOutsideRangeGoesToUnderflow)
 {
-  Histogram hist(10, 0.0f, 1.0f);
   hist.fill(-1.0f);
-  std::vector<float> expected_bin_counts(10, 0.0f);
-  EXPECT_THAT(hist.bin_counts(), ::testing::ContainerEq(expected_bin_counts));
+  EXPECT_THAT(hist.bin_counts(), ::testing::ContainerEq(expected));
   EXPECT_EQ(hist.n_underflow(), 1);
   EXPECT_EQ(hist.n_entries(), 1);
 }
 
-TEST(HistogramFill, WeightedFillProducesCorrectCounts)
+TEST_F(HistogramFillTest, WeightedFillProducesCorrectCounts)
 {
-  Histogram hist(10, 0.0f, 1.0f);
   hist.fill(0.1f, 0.5f);
   hist.fill(0.6f, 1.5f);
-  std::vector<float> expected(10, 0.0f);
   expected[1] = 0.5f;
   expected[6] = 1.5f;
   EXPECT_THAT(hist.bin_counts(), ::testing::ContainerEq(expected));
