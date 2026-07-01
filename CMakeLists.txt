@@ -28,7 +28,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(GTest REQUIRED)
 
 # - Build a library
-add_library(ccptepp src/invariant_mass.cpp)
+add_library(ccptepp src/invariant_mass.cpp src/histogram.cpp)
 target_include_directories(ccptepp PUBLIC src/)
 
 # - Build test_invariant_mass
