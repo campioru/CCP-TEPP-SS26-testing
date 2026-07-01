@@ -38,3 +38,16 @@ TEST(HistogramConstruction, AllBinsInitiallyZero)
   // EXPECT_EQ(hist.bin_counts(), expected);
   EXPECT_THAT(hist.bin_counts(), ::testing::ContainerEq(expected));
 }
+
+TEST(HistogramConstruction, BinEdgesHasCorrectSize)
+{
+  EXPECT_EQ(Histogram(10, 0.0f, 10.0f).bin_edges().size(), 10+1);
+  EXPECT_EQ(Histogram(1, 0.0f, 10.0f).bin_edges().size(), 1+1);
+}
+
+TEST(HistogramConstruction, BinEdgesHasCorrectEndpoints)
+{
+  Histogram hist(10, 0.0f, 1.0f);
+  EXPECT_FLOAT_EQ(hist.bin_edges().front(), 0.0f) << "front not equal" << std::endl;
+  EXPECT_FLOAT_EQ(hist.bin_edges().back(), 1.0f) << "back not equal" << std::endl;
+}
